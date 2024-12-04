@@ -20,6 +20,7 @@ public class GeneratorController : MonoBehaviour
     {
         if (progressBar != null)
         {
+            progressBar.value = 0f; // Initialize slider value
             progressBar.gameObject.SetActive(false); // Hide progress bar initially
         }
 
@@ -32,11 +33,15 @@ public class GeneratorController : MonoBehaviour
         StartCoroutine(RandomlyTurnOffLights());
     }
 
+
     void Update()
     {
-        // Only start repairing if player is nearby and pressing E
+        // Start repairing if player is nearby, pressing E, and the generator is off
+
+
         if (isPlayerNearby && Input.GetKey(KeyCode.E))
         {
+            Debug.Log("Player is repairing the generator.");
             StartRepairing();
         }
         else if (isRepairing && (!Input.GetKey(KeyCode.E) || !isPlayerNearby))
@@ -45,16 +50,17 @@ public class GeneratorController : MonoBehaviour
         }
     }
 
+
     private void StartRepairing()
     {
         if (!isRepairing)
         {
             isRepairing = true;
+        }
 
-            if (progressBar != null)
-            {
-                progressBar.gameObject.SetActive(true); // Show progress bar
-            }
+        if (progressBar != null && !progressBar.gameObject.activeSelf)
+        {
+            progressBar.gameObject.SetActive(true); // Always ensure progress bar is visible
         }
 
         // Increment progress
@@ -62,6 +68,9 @@ public class GeneratorController : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.value = repairProgress;
+
+            // Force a UI update (helpful for debugging UI redraw issues)
+            Canvas.ForceUpdateCanvases();
         }
 
         // Check if repair is complete
@@ -70,6 +79,8 @@ public class GeneratorController : MonoBehaviour
             CompleteRepair();
         }
     }
+
+
 
     private void CancelRepair()
     {
@@ -94,7 +105,7 @@ public class GeneratorController : MonoBehaviour
             progressBar.gameObject.SetActive(false); // Hide the progress bar
         }
 
-        isOn = true;
+        isOn = true; // Set generator state back to "on"
         ToggleLights(true); // Turn on lights when repair is complete
     }
 
@@ -139,7 +150,7 @@ public class GeneratorController : MonoBehaviour
         while (true)
         {
             // Wait for a random time between 1 and 4 minutes
-            float randomTime = Random.Range(60f, 180f); // Random time in seconds
+            float randomTime = Random.Range(30f, 120f); // Random time in seconds
             yield return new WaitForSeconds(randomTime);
 
             // Turn the lights off if they're currently on
