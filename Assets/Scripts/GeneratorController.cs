@@ -10,6 +10,7 @@ public class GeneratorController : MonoBehaviour
     public TextMeshProUGUI fixText; // UI Text for the message
     public float repairTime = 10f; // Time required to repair in seconds
     public bool IsGeneratorOn => isOn;
+    public TextMeshProUGUI taskPromptText;
 
     private bool isPlayerNearby = false;
     private bool isRepairing = false;
@@ -50,7 +51,14 @@ public class GeneratorController : MonoBehaviour
         }
     }
 
-
+    private void PromptFixGenerator()
+    {
+        if (taskPromptText != null)
+        {
+            taskPromptText.text = "I should fix the generator first!";
+            taskPromptText.gameObject.SetActive(true);
+        }
+    }
     private void StartRepairing()
     {
         if (!isRepairing)
@@ -80,8 +88,6 @@ public class GeneratorController : MonoBehaviour
         }
     }
 
-
-
     private void CancelRepair()
     {
         isRepairing = false;
@@ -107,6 +113,13 @@ public class GeneratorController : MonoBehaviour
 
         isOn = true; // Set generator state back to "on"
         ToggleLights(true); // Turn on lights when repair is complete
+
+        // Clean up UI taskPromptText
+        if (taskPromptText != null)
+        {
+            taskPromptText.gameObject.SetActive(false);
+        }
+
     }
 
     private void ToggleLights(bool state)
@@ -150,7 +163,7 @@ public class GeneratorController : MonoBehaviour
         while (true)
         {
             // Wait for a random time between 1 and 4 minutes
-            float randomTime = Random.Range(30f, 120f); // Random time in seconds
+            float randomTime = Random.Range(20f, 90f); // Random time in seconds
             yield return new WaitForSeconds(randomTime);
 
             // Turn the lights off if they're currently on
@@ -161,6 +174,7 @@ public class GeneratorController : MonoBehaviour
 
                 // Optionally, notify the player (e.g., through UI or sound effects)
                 Debug.Log("The generator has failed. The lights are off!");
+                PromptFixGenerator();
             }
         }
     }

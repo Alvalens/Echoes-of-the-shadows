@@ -32,10 +32,6 @@ public class CleaningTask : MonoBehaviour
         {
             CancelCleaning();
         }
-        else if (!generatorController.IsGeneratorOn && !isCleaned)
-        {
-            PromptFixGenerator();
-        }
 
         if (isCleaning && Input.GetKey(KeyCode.E))
         {
@@ -110,15 +106,6 @@ public class CleaningTask : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.gameObject.SetActive(false);
-        }
-    }
-
-    private void PromptFixGenerator()
-    {
-        if (taskPromptText != null)
-        {
-            taskPromptText.text = "I should fix the generator first!";
-            taskPromptText.gameObject.SetActive(true);
         }
     }
 
