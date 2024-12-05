@@ -7,7 +7,7 @@ public class CleaningManager : MonoBehaviour
     public GeneratorController generatorController; // Reference to the generator controller
     public CleaningTask[] cleaningTasks; // Array of all cleaning tasks
 
-    private int totalTasks = 8; // Total number of tasks to complete (adjust this based on your actual tasks)
+    private int totalTasks = 10; // Total number of tasks to complete (adjust this based on your actual tasks)
     private int tasksCompleted = 0; // Number of tasks completed
 
     void Start()

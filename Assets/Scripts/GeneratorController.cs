@@ -40,7 +40,7 @@ public class GeneratorController : MonoBehaviour
         // Start repairing if player is nearby, pressing E, and the generator is off
 
 
-        if (isPlayerNearby && Input.GetKey(KeyCode.E))
+        if (isPlayerNearby && Input.GetKey(KeyCode.E) && !isOn)
         {
             Debug.Log("Player is repairing the generator.");
             StartRepairing();
@@ -163,7 +163,7 @@ public class GeneratorController : MonoBehaviour
         while (true)
         {
             // Wait for a random time between 1 and 4 minutes
-            float randomTime = Random.Range(20f, 90f); // Random time in seconds
+            float randomTime = Random.Range(20f, 60f); // Random time in seconds
             yield return new WaitForSeconds(randomTime);
 
             // Turn the lights off if they're currently on
