@@ -69,6 +69,7 @@ public class CleaningTask : MonoBehaviour
         }
     }
 
+    // Remove the PlayerPrefs.SetInt directly from here
     private void CompleteCleaning()
     {
         isCleaning = false;
@@ -84,13 +85,15 @@ public class CleaningTask : MonoBehaviour
             progressBar.gameObject.SetActive(false);
         }
 
-        Destroy(gameObject);
-
         // Notify CleaningManager that this task is complete
         if (cleaningManager != null)
         {
             cleaningManager.TaskCompleted();
         }
+
+        // Optionally, deactivate the task instead of destroying it
+        gameObject.SetActive(false); // Deactivate the task object instead of destroying it
+        Debug.Log($"Task {taskName} completed.");
     }
 
     public void CancelCleaning()
