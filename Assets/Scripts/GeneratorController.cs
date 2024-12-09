@@ -8,7 +8,7 @@ public class GeneratorController : MonoBehaviour
     public GameObject HouseLights; // Reference to the lights group
     public Slider progressBar; // UI Slider for progress
     public TextMeshProUGUI fixText; // UI Text for the message
-    public float repairTime = 10f; // Time required to repair in seconds
+    public float repairTime = 20f; // Time required to repair in seconds
     public bool IsGeneratorOn => isOn;
     public TextMeshProUGUI taskPromptText;
 

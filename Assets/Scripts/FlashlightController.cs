@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FlashlightController : MonoBehaviour
@@ -8,6 +9,7 @@ public class FlashlightController : MonoBehaviour
     public float batteryLife = 180f;  // 3 minutes of battery life
     public bool isOn = true;          // Flashlight state
     private Collider detectionCollider; // The trigger collider to detect ghosts
+    public TextMeshProUGUI batteryText;
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class FlashlightController : MonoBehaviour
         }
 
         // Drain battery if the flashlight is on
+        // Drain battery if the flashlight is on
         if (isOn && batteryLife > 0)
         {
             batteryLife -= Time.deltaTime;
@@ -39,6 +42,7 @@ public class FlashlightController : MonoBehaviour
 
         // Debug ghost detection
         DetectGhost();
+        UpdateBatteryText();
     }
 
     void ToggleFlashlight()
@@ -69,5 +73,14 @@ public class FlashlightController : MonoBehaviour
                 }
             }
         }
+    }
+
+    void UpdateBatteryText()
+    {
+        // Calculate battery percentage
+        float batteryPercentage = (batteryLife / 180f) * 100f;
+
+        // Update the text component
+        batteryText.text = $"Battery: {Mathf.CeilToInt(batteryPercentage)}%";
     }
 }
