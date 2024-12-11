@@ -74,6 +74,6 @@ public class FlashlightController : MonoBehaviour
         float batteryPercentage = (batteryLife / 180f) * 100f;
 
         // Update the text component
-        batteryText.text = $"Battery: {Mathf.CeilToInt(batteryPercentage)}%";
+        batteryText.text = $"{Mathf.CeilToInt(batteryPercentage)}%";
     }
 }

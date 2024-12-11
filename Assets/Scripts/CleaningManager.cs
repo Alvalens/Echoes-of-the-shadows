@@ -9,8 +9,8 @@ public class CleaningManager : MonoBehaviour
     public CleaningTask[] cleaningTasks;
     public GameObject player;
 
-    private int totalTasks;
-    private int tasksCompleted = 0;
+    public int totalTasks;
+    public int tasksCompleted = 0;
 
     void Start()
     {
