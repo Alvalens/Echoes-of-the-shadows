@@ -5,17 +5,18 @@ using UnityEngine;
 
 public class FlashlightController : MonoBehaviour
 {
-    public Light flashlight;          // Reference to the Spotlight component
-    public float batteryLife = 180f;  // 3 minutes of battery life
-    public bool isOn = true;          // Flashlight state
-    private Collider detectionCollider; // The trigger collider to detect ghosts
-    public TextMeshProUGUI batteryText;
+    public Light flashlight;                  // Reference to the Spotlight component
+    public float batteryLife = 180f;          // 3 minutes of battery life
+    public bool isOn = true;                  // Flashlight state
+    public Collider detectionCollider;        // Trigger collider to detect ghosts
+    public TextMeshProUGUI batteryText;       // UI Text to show battery life
+    public GhostController ghostController;   // Reference to the GhostController script
 
     void Start()
     {
-        // Get the Light and Collider components
+        // Get the Light and Collider components if not already assigned
         if (!flashlight) flashlight = GetComponent<Light>();
-        detectionCollider = GetComponent<Collider>();
+        if (!detectionCollider) detectionCollider = GetComponent<Collider>();
     }
 
     void Update()
@@ -26,7 +27,6 @@ public class FlashlightController : MonoBehaviour
             ToggleFlashlight();
         }
 
-        // Drain battery if the flashlight is on
         // Drain battery if the flashlight is on
         if (isOn && batteryLife > 0)
         {
@@ -40,9 +40,18 @@ public class FlashlightController : MonoBehaviour
             }
         }
 
-        // Debug ghost detection
-        DetectGhost();
+        // Update battery text
         UpdateBatteryText();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Check for collision with a ghost when the flashlight is on
+        if (isOn && other.CompareTag("ghost"))
+        {
+            Debug.Log("Ghost detected! Teleporting...");
+            ghostController.TeleportToRandomSpawn(); // Teleport the ghost
+        }
     }
 
     void ToggleFlashlight()
@@ -57,22 +66,6 @@ public class FlashlightController : MonoBehaviour
         isOn = false;
         flashlight.enabled = false;
         detectionCollider.enabled = false;
-    }
-
-    void DetectGhost()
-    {
-        if (detectionCollider.enabled)
-        {
-            // Check for collisions with ghosts
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionCollider.bounds.extents.magnitude);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.CompareTag("ghost"))
-                {
-                    Debug.Log("Ghost detected!");
-                }
-            }
-        }
     }
 
     void UpdateBatteryText()

@@ -11,6 +11,7 @@ public class GeneratorController : MonoBehaviour
     public float repairTime = 20f; // Time required to repair in seconds
     public bool IsGeneratorOn => isOn;
     public TextMeshProUGUI taskPromptText;
+    public GhostController ghostController;
 
     private bool isPlayerNearby = false;
     private bool isRepairing = false;
@@ -34,15 +35,11 @@ public class GeneratorController : MonoBehaviour
         StartCoroutine(RandomlyTurnOffLights());
     }
 
-
     void Update()
     {
         // Start repairing if player is nearby, pressing E, and the generator is off
-
-
         if (isPlayerNearby && Input.GetKey(KeyCode.E) && !isOn)
         {
-            Debug.Log("Player is repairing the generator.");
             StartRepairing();
         }
         else if (isRepairing && (!Input.GetKey(KeyCode.E) || !isPlayerNearby))
@@ -59,6 +56,7 @@ public class GeneratorController : MonoBehaviour
             taskPromptText.gameObject.SetActive(true);
         }
     }
+
     private void StartRepairing()
     {
         if (!isRepairing)
@@ -114,12 +112,13 @@ public class GeneratorController : MonoBehaviour
         isOn = true; // Set generator state back to "on"
         ToggleLights(true); // Turn on lights when repair is complete
 
+        // Stop ghost spawning when the generator is repaired
+        ghostController.DeactivateGhost();
         // Clean up UI taskPromptText
         if (taskPromptText != null)
         {
             taskPromptText.gameObject.SetActive(false);
         }
-
     }
 
     private void ToggleLights(bool state)
@@ -172,7 +171,10 @@ public class GeneratorController : MonoBehaviour
                 isOn = false;
                 ToggleLights(false);
 
-                // Optionally, notify the player (e.g., through UI or sound effects)
+                // Trigger ghost spawning when the generator fails
+                ghostController.ActivateGhost();
+
+                // Notify the player (e.g., through UI or sound effects)
                 Debug.Log("The generator has failed. The lights are off!");
                 PromptFixGenerator();
             }
