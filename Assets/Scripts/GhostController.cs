@@ -11,14 +11,17 @@ public class GhostController : MonoBehaviour
     public Animator ghostAnimator;       // Animator for ghost animations
     public AudioSource jumpScareAudio;   // Audio source for jump scare sound
     public GameObject playerController;  // Reference to player movement controller
+    public PlayerMovement playerMovement;
+    public Camera mainCamera;            // Reference to the main camera
+    public float cameraTurnSpeed = 5f;   // Speed at which camera turns to ghost
 
     private NavMeshAgent navMeshAgent;   // Reference to NavMeshAgent component
     private bool isActive = false;       // Ghost active state
     private bool isChasing = false;      // Whether the ghost is chasing the player
+    private bool isJumpScareActive = false; // Whether a jump scare is active
 
     void Start()
     {
-        // Get the NavMeshAgent component
         navMeshAgent = GetComponent<NavMeshAgent>();
         if (navMeshAgent == null)
         {
@@ -26,7 +29,6 @@ public class GhostController : MonoBehaviour
             return;
         }
 
-        // Deactivate ghost at the start
         gameObject.SetActive(false);
     }
 
@@ -34,10 +36,8 @@ public class GhostController : MonoBehaviour
     {
         if (isActive && isChasing)
         {
-            // Continuously set the player as the destination
             navMeshAgent.SetDestination(player.position);
 
-            // Check for jump scare trigger
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer <= jumpScareDistance)
             {
@@ -48,88 +48,90 @@ public class GhostController : MonoBehaviour
 
     public void ActivateGhost()
     {
-        // Spawn the ghost at a random spawn point
+        if (isJumpScareActive) return;
+
         TeleportToRandomSpawn();
-        gameObject.SetActive(true); // Enable ghost
+        gameObject.SetActive(true);
         isActive = true;
         isChasing = true;
 
-        // Enable NavMeshAgent
         navMeshAgent.enabled = true;
     }
 
     public void DeactivateGhost()
     {
-        // Deactivate the ghost
         isActive = false;
         isChasing = false;
         gameObject.SetActive(false);
 
-        // Disable NavMeshAgent
         navMeshAgent.enabled = false;
     }
 
     public void TeleportToRandomSpawn()
     {
+        if (isJumpScareActive) return; // Prevent teleportation during jump scare
+
         if (spawnPoints.Length == 0)
         {
             Debug.LogWarning("No spawn points assigned!");
             return;
         }
 
-        // Pick a random spawn point
         int randomIndex = Random.Range(0, spawnPoints.Length);
         transform.position = spawnPoints[randomIndex].position;
 
-        // Ensure NavMeshAgent syncs with the new position
         navMeshAgent.Warp(transform.position);
     }
 
     void TriggerJumpScare()
     {
-        if (!isActive) return;
+        if (!isActive || isJumpScareActive) return;
 
-        // Stop chasing and deactivate NavMeshAgent
+        isJumpScareActive = true;
         isActive = false;
         isChasing = false;
         navMeshAgent.isStopped = true;
 
-        // Play jump scare sound
-        if (jumpScareAudio != null)
-        {
-            jumpScareAudio.Play();
-        }
+        if (jumpScareAudio != null) jumpScareAudio.Play();
+        if (ghostAnimator != null) ghostAnimator.SetTrigger("JumpScare");
 
-        // Play jump scare animation
-        if (ghostAnimator != null)
-        {
-            ghostAnimator.SetTrigger("JumpScare");
-        }
-
-        // Disable player controls
         if (playerController != null)
         {
-            playerController.SetActive(false);
+            if (playerMovement != null)
+                playerMovement.enabled = false;
         }
 
-        // Optional: Rotate the player to face the ghost
-        Vector3 directionToGhost = (transform.position - player.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToGhost);
-        player.rotation = Quaternion.Slerp(player.rotation, lookRotation, Time.deltaTime * 5f);
+        if (!mainCamera.gameObject.activeInHierarchy || !mainCamera.enabled)
+        {
+            Debug.LogError("Main camera is not active or enabled during the jump scare!");
+            return;
+        }
 
-        // Debug message
-        Debug.Log("Jump scare triggered! You lose!");
-
-        // Reactivate player and ghost after delay
+        StartCoroutine(RotateCameraToGhost());
         StartCoroutine(EndJumpScare());
+    }
+
+    IEnumerator RotateCameraToGhost()
+    {
+        Vector3 directionToGhost = (transform.position - mainCamera.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToGhost);
+
+        while (Quaternion.Angle(mainCamera.transform.rotation, lookRotation) > 0.1f)
+        {
+            mainCamera.transform.rotation = Quaternion.Slerp(
+                mainCamera.transform.rotation,
+                lookRotation,
+                Time.deltaTime * cameraTurnSpeed
+            );
+            yield return null;
+        }
     }
 
     IEnumerator EndJumpScare()
     {
-        // Wait for 3 seconds or the duration of the animation
         yield return new WaitForSeconds(3f);
 
-        // Reactivate ghost or handle game-over logic
+        isJumpScareActive = false; // Reset jump scare flag
         DeactivateGhost();
         SceneManager.LoadScene("Game Over");
     }

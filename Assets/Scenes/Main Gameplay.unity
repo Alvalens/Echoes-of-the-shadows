@@ -4257,6 +4257,9 @@ MonoBehaviour:
   ghostAnimator: {fileID: 0}
   jumpScareAudio: {fileID: 0}
   playerController: {fileID: 351511506}
+  playerMovement: {fileID: 351511511}
+  mainCamera: {fileID: 963194227}
+  cameraTurnSpeed: 5
 --- !u!195 &1246678676
 NavMeshAgent:
   m_ObjectHideFlags: 0

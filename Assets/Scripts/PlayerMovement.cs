@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SimplePlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;            // Speed of movement
     public float jumpForce = 5f;           // Force applied for jumping
