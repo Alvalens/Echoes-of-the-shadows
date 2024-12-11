@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class GhostController : MonoBehaviour
 {
@@ -130,12 +131,7 @@ public class GhostController : MonoBehaviour
 
         // Reactivate ghost or handle game-over logic
         DeactivateGhost();
-
-        // Enable player controls
-        if (playerController != null)
-        {
-            playerController.SetActive(true);
-        }
+        SceneManager.LoadScene("Game Over");
     }
 
     void OnTriggerEnter(Collider other)
