@@ -7613,6 +7613,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 351511506}
     - target: {fileID: 4769955819438849995, guid: ae5a75a464ba5ee40b97e952ed42192f, type: 3}
+      propertyPath: jumpScareDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769955819438849995, guid: ae5a75a464ba5ee40b97e952ed42192f, type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 1904305167}
