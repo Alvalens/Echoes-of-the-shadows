@@ -21,6 +21,9 @@ public class GeneratorController : MonoBehaviour
     private bool isRepairing = false;
     private float repairProgress = 0f;
     private bool isOn = true;
+    private float remainingTimeUntilFailure; // Time left before the next blackout
+    private bool isTimerActive = true; // Flag to control the timer
+
 
     void Start()
     {
@@ -35,7 +38,7 @@ public class GeneratorController : MonoBehaviour
             fixText.gameObject.SetActive(false); // Hide the text initially
         }
 
-        // Start the coroutine for random light turn-off
+        remainingTimeUntilFailure = Random.Range(20f, 60f); // Set initial random time
         StartCoroutine(RandomlyTurnOffLights());
 
         // Start with generator audio playing if it's on
@@ -128,28 +131,27 @@ public class GeneratorController : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.value = 0f;
-            progressBar.gameObject.SetActive(false); // Hide the progress bar
+            progressBar.gameObject.SetActive(false);
         }
 
-        isOn = true; // Set generator state back to "on"
-        ToggleLights(true); // Turn on lights when repair is complete
+        isOn = true; // Turn generator back on
+        ToggleLights(true);
 
-        // Stop the fixing audio and start the generator audio
+        // Resume the timer
+        isTimerActive = true;
+
         if (fixingAudio != null && fixingAudio.isPlaying)
         {
-            fixingAudio.Stop(); // Stop fixing sound
+            fixingAudio.Stop();
         }
 
-        // Start the generator audio when it's back on
         if (generatorAudio != null && !generatorAudio.isPlaying)
         {
-            generatorAudio.Play(); // Play generator sound
+            generatorAudio.Play();
         }
 
-        // Stop ghost spawning when the generator is repaired
         ghostController.DeactivateGhost();
 
-        // Clean up UI taskPromptText
         if (taskPromptText != null)
         {
             taskPromptText.gameObject.SetActive(false);
@@ -163,11 +165,13 @@ public class GeneratorController : MonoBehaviour
             light.enabled = state;
         }
 
-        // Play electricity sound when toggling lights
         if (electricityAudio != null)
         {
             electricityAudio.Play();
         }
+
+        // Pause the blackout timer if lights are off
+        isTimerActive = state;
     }
 
     void OnTriggerEnter(Collider other)
@@ -187,14 +191,14 @@ public class GeneratorController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerNearby = false; // Player leaves the generator area
+            isPlayerNearby = false;
 
             if (fixText != null)
             {
-                fixText.gameObject.SetActive(false); // Hide the text when the player leaves
+                fixText.gameObject.SetActive(false);
             }
 
-            CancelRepair(); // Stop the repair process if the player leaves
+            CancelRepair();
         }
     }
 
@@ -202,29 +206,31 @@ public class GeneratorController : MonoBehaviour
     {
         while (true)
         {
-            // Wait for a random time between 1 and 4 minutes
-            float randomTime = Random.Range(20f, 60f); // Random time in seconds
-            yield return new WaitForSeconds(randomTime);
+            while (!isTimerActive) yield return null; // Wait if the timer is paused
 
-            // Turn the lights off if they're currently on
+            // Countdown for the remaining time
+            yield return new WaitForSeconds(remainingTimeUntilFailure);
+
+            // Turn off the generator and lights if they are on
             if (isOn)
             {
                 isOn = false;
                 ToggleLights(false);
+                ghostController.ActivateGhost();
 
-                // Stop the generator audio when it's turned off
+                // Stop the generator audio
                 if (generatorAudio != null && generatorAudio.isPlaying)
                 {
                     generatorAudio.Stop();
                 }
 
-                // Trigger ghost spawning when the generator fails
-                ghostController.ActivateGhost();
-
-                // Notify the player (e.g., through UI or sound effects)
+                // Notify the player
                 Debug.Log("The generator has failed. The lights are off!");
                 PromptFixGenerator();
             }
+
+            // Generate a new random time for the next blackout
+            remainingTimeUntilFailure = Random.Range(20f, 60f);
         }
     }
 }
