@@ -9,6 +9,8 @@ public class CleaningTask : MonoBehaviour
     public GeneratorController generatorController;
     public Slider progressBar;
     public CleaningManager cleaningManager; // Reference to the CleaningManager
+    public AudioSource cleanAudio;  // Reference to the audio source for cleaning sound
+    public AudioSource doneAudio;   // Reference to the audio source for done sound
 
     private bool isPlayerNearby = false;
     private bool isCleaning = false;
@@ -66,10 +68,15 @@ public class CleaningTask : MonoBehaviour
                 progressBar.gameObject.SetActive(true);
                 progressBar.value = 0f;
             }
+
+            // Play the clean sound when cleaning starts
+            if (cleanAudio != null && !cleanAudio.isPlaying)
+            {
+                cleanAudio.Play();
+            }
         }
     }
 
-    // Remove the PlayerPrefs.SetInt directly from here
     private void CompleteCleaning()
     {
         isCleaning = false;
@@ -83,6 +90,12 @@ public class CleaningTask : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.gameObject.SetActive(false);
+        }
+
+        // Play the done sound when cleaning is complete
+        if (doneAudio != null && !doneAudio.isPlaying)
+        {
+            doneAudio.Play();
         }
 
         // Notify CleaningManager that this task is complete
@@ -109,6 +122,12 @@ public class CleaningTask : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.gameObject.SetActive(false);
+        }
+
+        // Optionally stop the cleaning sound if cleaning is canceled
+        if (cleanAudio != null && cleanAudio.isPlaying)
+        {
+            cleanAudio.Stop();
         }
     }
 

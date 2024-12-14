@@ -13,6 +13,10 @@ public class GeneratorController : MonoBehaviour
     public TextMeshProUGUI taskPromptText;
     public GhostController ghostController;
 
+    public AudioSource generatorAudio; // AudioSource reference for the generator sound
+    public AudioSource fixingAudio; // AudioSource reference for the fixing sound
+    public AudioSource electricityAudio; // AudioSource reference for the electricity sound
+
     private bool isPlayerNearby = false;
     private bool isRepairing = false;
     private float repairProgress = 0f;
@@ -33,6 +37,12 @@ public class GeneratorController : MonoBehaviour
 
         // Start the coroutine for random light turn-off
         StartCoroutine(RandomlyTurnOffLights());
+
+        // Start with generator audio playing if it's on
+        if (generatorAudio != null && isOn)
+        {
+            generatorAudio.Play(); // Play audio if the generator is on
+        }
     }
 
     void Update()
@@ -69,6 +79,12 @@ public class GeneratorController : MonoBehaviour
             progressBar.gameObject.SetActive(true); // Always ensure progress bar is visible
         }
 
+        // Start the fixing audio when repairing starts
+        if (fixingAudio != null && !fixingAudio.isPlaying)
+        {
+            fixingAudio.Play(); // Play fixing sound
+        }
+
         // Increment progress
         repairProgress += Time.deltaTime / repairTime;
         if (progressBar != null)
@@ -96,6 +112,12 @@ public class GeneratorController : MonoBehaviour
             progressBar.value = 0f;
             progressBar.gameObject.SetActive(false); // Hide the progress bar
         }
+
+        // Stop the fixing audio if the repair is cancelled
+        if (fixingAudio != null && fixingAudio.isPlaying)
+        {
+            fixingAudio.Stop();
+        }
     }
 
     private void CompleteRepair()
@@ -112,8 +134,21 @@ public class GeneratorController : MonoBehaviour
         isOn = true; // Set generator state back to "on"
         ToggleLights(true); // Turn on lights when repair is complete
 
+        // Stop the fixing audio and start the generator audio
+        if (fixingAudio != null && fixingAudio.isPlaying)
+        {
+            fixingAudio.Stop(); // Stop fixing sound
+        }
+
+        // Start the generator audio when it's back on
+        if (generatorAudio != null && !generatorAudio.isPlaying)
+        {
+            generatorAudio.Play(); // Play generator sound
+        }
+
         // Stop ghost spawning when the generator is repaired
         ghostController.DeactivateGhost();
+
         // Clean up UI taskPromptText
         if (taskPromptText != null)
         {
@@ -126,6 +161,12 @@ public class GeneratorController : MonoBehaviour
         foreach (Light light in HouseLights.GetComponentsInChildren<Light>())
         {
             light.enabled = state;
+        }
+
+        // Play electricity sound when toggling lights
+        if (electricityAudio != null)
+        {
+            electricityAudio.Play();
         }
     }
 
@@ -170,6 +211,12 @@ public class GeneratorController : MonoBehaviour
             {
                 isOn = false;
                 ToggleLights(false);
+
+                // Stop the generator audio when it's turned off
+                if (generatorAudio != null && generatorAudio.isPlaying)
+                {
+                    generatorAudio.Stop();
+                }
 
                 // Trigger ghost spawning when the generator fails
                 ghostController.ActivateGhost();

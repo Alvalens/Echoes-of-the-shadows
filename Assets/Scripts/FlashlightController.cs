@@ -11,6 +11,7 @@ public class FlashlightController : MonoBehaviour
     public Collider detectionCollider;        // Trigger collider to detect ghosts
     public TextMeshProUGUI batteryText;       // UI Text to show battery life
     public GhostController ghostController;   // Reference to the GhostController script
+    public AudioSource flashlightAudio;       // AudioSource for flashlight sound
 
     void Start()
     {
@@ -59,6 +60,13 @@ public class FlashlightController : MonoBehaviour
         isOn = !isOn;
         flashlight.enabled = isOn;
         detectionCollider.enabled = isOn; // Enable/Disable ghost detection
+
+        // Play audio for toggling flashlight
+        if (flashlightAudio != null)
+        {
+            flashlightAudio.time = 0.08f; // Set audio start time to 0.15 seconds
+            flashlightAudio.Play();
+        }
     }
 
     void TurnOffFlashlight()
