@@ -111,7 +111,7 @@ public class GhostController : MonoBehaviour
         }
 
         // Screen shake effect
-        float shakeDuration = 2f;
+        float shakeDuration = 1f;
         float shakeMagnitude = 0.1f;
 
         Vector3 originalPosition = mainCamera.transform.localPosition;
