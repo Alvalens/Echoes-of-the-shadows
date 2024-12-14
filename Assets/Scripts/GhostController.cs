@@ -90,7 +90,42 @@ public class GhostController : MonoBehaviour
 
         navMeshAgent.Warp(transform.position);
     }
+    private void ClearUI()
+    {
+        foreach (Canvas canvas in FindObjectsOfType<Canvas>())
+        {
+            canvas.gameObject.SetActive(false);
+        }
+    }
+    private IEnumerator CameraEffects()
+    {
+        float originalFOV = mainCamera.fieldOfView;
+        float targetFOV = originalFOV + 5f; // Increase FOV for dramatic effect
+        float duration = 2f;
 
+        // Gradually change the FOV
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            mainCamera.fieldOfView = Mathf.Lerp(originalFOV, targetFOV, t / duration);
+            yield return null;
+        }
+
+        // Screen shake effect
+        float shakeDuration = 2f;
+        float shakeMagnitude = 0.1f;
+
+        Vector3 originalPosition = mainCamera.transform.localPosition;
+        for (float t = 0; t < shakeDuration; t += Time.deltaTime)
+        {
+            Vector3 shakeOffset = Random.insideUnitSphere * shakeMagnitude;
+            mainCamera.transform.localPosition = originalPosition + shakeOffset;
+            yield return null;
+        }
+
+        // Reset camera to original FOV
+        mainCamera.fieldOfView = originalFOV;
+        mainCamera.transform.localPosition = originalPosition;
+    }
     void TriggerJumpScare()
     {
         if (!isActive || isJumpScareActive) return;
@@ -100,21 +135,30 @@ public class GhostController : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.enabled = false;
 
+        // Play jumpscare audio
         if (jumpScareAudio != null) jumpScareAudio.Play();
+
+        // Trigger ghost animation
         if (ghostAnimator != null)
         {
             ghostAnimator.applyRootMotion = false;
             ghostAnimator.SetTrigger("Jumpscare");
         }
+
+        // Disable player movement
         if (playerMovement != null)
             playerMovement.enabled = false;
 
+        // Clear all UI elements
+        ClearUI();
+
+        // Enable ghost light
         if (ghostLight != null)
         {
             ghostLight.enabled = true;
         }
 
-        // Move the ghost directly in front of the player
+        // Move the ghost in front of the player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         transform.position = player.position - directionToPlayer * 1.5f;
 
@@ -122,12 +166,13 @@ public class GhostController : MonoBehaviour
         float cameraHeight = mainCamera.transform.position.y;
         transform.position = new Vector3(transform.position.x, cameraHeight - 2.3f, transform.position.z);
 
-        // Make the ghost horizontally look at the camera
+        // Make the ghost look at the camera
         Vector3 lookDirection = mainCamera.transform.position - transform.position;
-        lookDirection.y = 0; // Ignore vertical adjustment to ensure horizontal alignment
+        lookDirection.y = 0; // Horizontal alignment
         transform.rotation = Quaternion.LookRotation(lookDirection);
 
-        // Start the camera rotation coroutine
+        // Start camera effects and end jumpscare sequence
+        StartCoroutine(CameraEffects());
         StartCoroutine(RotateCameraToGhost());
         StartCoroutine(EndJumpScare());
     }
@@ -135,23 +180,23 @@ public class GhostController : MonoBehaviour
     IEnumerator RotateCameraToGhost()
     {
         Vector3 directionToGhost = (transform.position - mainCamera.transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(directionToGhost);
+        Quaternion targetRotation = Quaternion.LookRotation(directionToGhost);
 
-        // Apply the tilt to the look rotation
-        lookRotation *= Quaternion.Euler(-35f, 0f, 0f);
+        // Apply tilt directly
+        targetRotation *= Quaternion.Euler(-35f, 0f, 0f);
 
-        while (Quaternion.Angle(mainCamera.transform.rotation, lookRotation) > 0.1f)
+        while (Quaternion.Angle(mainCamera.transform.rotation, targetRotation) > 0.1f)
         {
             mainCamera.transform.rotation = Quaternion.Slerp(
                 mainCamera.transform.rotation,
-                lookRotation,
+                targetRotation,
                 Time.deltaTime * cameraTurnSpeed
             );
             yield return null;
         }
 
-        // Ensure the camera is exactly facing the ghost with the tilt at the end
-        mainCamera.transform.rotation = lookRotation;
+        // Snap to target rotation at the end
+        mainCamera.transform.rotation = targetRotation;
     }
 
     IEnumerator EndJumpScare()

@@ -3114,12 +3114,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720001236}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.116188, y: 0.27483046, z: 51.087505}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.39028168, y: 0.2748326, z: 1.1895332}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1409149245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &737648726
 GameObject:
@@ -5490,6 +5490,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &1409149245 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6599352126734563419, guid: ae5a75a464ba5ee40b97e952ed42192f, type: 3}
+  m_PrefabInstance: {fileID: 283675569521531128}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1422061414
 GameObject:
   m_ObjectHideFlags: 0
@@ -6790,7 +6795,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2f20a94bf8c12084dbdebe326d2ee912, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.595
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6864,7 +6869,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -8754,7 +8759,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6599352126734563419, guid: ae5a75a464ba5ee40b97e952ed42192f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 720001238}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5827177876957111009, guid: ae5a75a464ba5ee40b97e952ed42192f, type: 3}
       insertIndex: -1
@@ -8780,5 +8788,4 @@ SceneRoots:
   - {fileID: 1497595493}
   - {fileID: 708707700}
   - {fileID: 283675569521531128}
-  - {fileID: 720001238}
   - {fileID: 1695207622}
