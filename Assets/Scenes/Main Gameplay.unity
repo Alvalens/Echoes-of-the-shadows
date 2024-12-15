@@ -3455,7 +3455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashlight: {fileID: 870566355}
-  batteryLife: 180
+  batteryLife: 120
   isOn: 1
   detectionCollider: {fileID: 37542727}
   batteryText: {fileID: 1247681327}
