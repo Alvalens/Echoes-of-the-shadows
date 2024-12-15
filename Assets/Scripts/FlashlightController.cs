@@ -23,7 +23,7 @@ public class FlashlightController : MonoBehaviour
     void Update()
     {
         // Toggle flashlight with F key
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetButtonDown("Toggle"))
         {
             ToggleFlashlight();
         }

@@ -22,7 +22,7 @@ public class BedInteraction : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerNearby && Input.GetKey(KeyCode.E))
+        if (isPlayerNearby && Input.GetButton("Interact"))
         {
             if (!isSaving)
             {
@@ -42,7 +42,7 @@ public class BedInteraction : MonoBehaviour
                 SaveGame();
             }
         }
-        else if (isSaving && !Input.GetKey(KeyCode.E))
+        else if (isSaving && !Input.GetButton("Interact"))
         {
             CancelSaving();
         }
