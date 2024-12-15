@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Prologue.unity
     guid: d95bb7c9d72ba564c830f52411f07949
   - enabled: 1
-    path: Assets/Scenes/Help.unity
+    path: Assets/Scenes/help.unity
     guid: 810eff4df59451b4c82e180478a2bb06
   - enabled: 1
     path: Assets/Scenes/Main Gameplay.unity
@@ -23,4 +23,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Wining.unity
     guid: e2889f7d4340a9649b10e5dfb3155362
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 3f44fc32f2632e94389f3dfd570a1d63, type: 2}

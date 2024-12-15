@@ -26,16 +26,16 @@ public class CleaningTask : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerNearby && !isCleaned && Input.GetKey(KeyCode.E) && generatorController.IsGeneratorOn)
+        if (isPlayerNearby && !isCleaned && Input.GetButton("Interact") && generatorController.IsGeneratorOn)
         {
             StartCleaning();
         }
-        else if (isCleaning && !Input.GetKey(KeyCode.E))
+        else if (isCleaning && !Input.GetButton("Interact"))
         {
             CancelCleaning();
         }
 
-        if (isCleaning && Input.GetKey(KeyCode.E))
+        if (isCleaning && Input.GetButton("Interact"))
         {
             cleaningTimer += Time.deltaTime;
             if (progressBar != null)

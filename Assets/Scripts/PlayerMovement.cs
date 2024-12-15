@@ -24,11 +24,14 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    public float rotateSpeed = 100f; // Speed of rotation
+    public float joystickOffsetAngle = 45f; // Customizable offset in degrees
+
     void Update()
     {
         HandleMovement();
-        HandleMouseLook();
         HandleJump();
+        HandleMouseLook();
     }
 
     void HandleMovement()
@@ -51,19 +54,43 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // Rotate player horizontally
+        // If there is controller input, use Right Stick instead
+        if (Input.GetAxis("RightStickX") != 0 || Input.GetAxis("RightStickY") != 0)
+        {
+            // Get right stick input
+            float rightStickX = Input.GetAxis("RightStickX");
+            float rightStickY = Input.GetAxis("RightStickY");
+
+            // Combine input into a direction vector
+            Vector2 stickInput = new Vector2(rightStickX, rightStickY);
+
+            // Apply joystick offset (convert offset angle to radians)
+            float offsetRadians = joystickOffsetAngle * Mathf.Deg2Rad;
+            float adjustedX = Mathf.Cos(offsetRadians) * stickInput.x - Mathf.Sin(offsetRadians) * stickInput.y;
+            float adjustedY = Mathf.Sin(offsetRadians) * stickInput.x + Mathf.Cos(offsetRadians) * stickInput.y;
+
+            // Replace input with adjusted values
+            rightStickX = adjustedX;
+            rightStickY = adjustedY;
+
+            // Scale the right stick input to match mouse sensitivity
+            mouseX = rightStickX * mouseSensitivity * Time.deltaTime;
+            mouseY = rightStickY * mouseSensitivity * Time.deltaTime;
+        }
+
+        // Rotate player horizontally (around the Y-axis) for yaw
         transform.Rotate(Vector3.up * mouseX);
 
-        // Rotate camera vertically
+        // Rotate camera vertically (around the X-axis) for pitch
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Prevent over-rotation
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Prevent over-rotation (up/down)
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 
     void HandleJump()
     {
         // Check for jump input and if the player is on the ground
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false; // Prevent double jumps
