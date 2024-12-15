@@ -27,6 +27,9 @@ public class PrologueManager : MonoBehaviour
             Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
         }
 
+        // Tambahkan ini untuk mencegah AudioSource dihancurkan
+        DontDestroyOnLoad(gameObject);
+
         textDisplay.text = texts[currentTextIndex]; // Display the first text
         nextButton.onClick.AddListener(NextText); // Add listener to the button
     }
