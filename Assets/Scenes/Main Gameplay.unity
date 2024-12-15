@@ -458,7 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: 'Trash Pile '
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Trash Bag
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Cans in Table
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -1246,6 +1246,8 @@ MonoBehaviour:
   jumpForce: 5
   mouseSensitivity: 100
   playerCamera: {fileID: 963194228}
+  rotateSpeed: 100
+  joystickOffsetAngle: 45
 --- !u!54 &351511512
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1865,27 +1867,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1293381384103888, guid: e88b2fcbeedb2464bba3bbf7541c7edb, type: 3}
   m_PrefabInstance: {fileID: 742461993}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &537563046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537563045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0581ecad50d6574da038964a25861ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HouseLights: {fileID: 1398473658}
-  progressBar: {fileID: 1379816212}
-  fixText: {fileID: 1525523207}
-  repairTime: 15
-  taskPromptText: {fileID: 0}
-  ghostController: {fileID: 1409149236}
-  generatorAudio: {fileID: 1314740092}
-  fixingAudio: {fileID: 473099858}
-  electricityAudio: {fileID: 867646652}
 --- !u!65 &537563047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2313,7 +2294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Pizza Box
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -3285,9 +3266,6 @@ PrefabInstance:
       addedObject: {fileID: 537563047}
     - targetCorrespondingSourceObject: {fileID: 1293381384103888, guid: e88b2fcbeedb2464bba3bbf7541c7edb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 537563046}
-    - targetCorrespondingSourceObject: {fileID: 1293381384103888, guid: e88b2fcbeedb2464bba3bbf7541c7edb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 537563052}
   m_SourcePrefab: {fileID: 100100000, guid: e88b2fcbeedb2464bba3bbf7541c7edb, type: 3}
 --- !u!1001 &753455726
@@ -4166,7 +4144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Cans in Kitchen
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -5910,7 +5888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Sink Trash
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -6653,7 +6631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Trash Pile 2
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -7202,7 +7180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Chairs
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -8219,7 +8197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectiveText: {fileID: 652691886}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   cleaningTasks:
   - {fileID: 944198685}
   - {fileID: 1755282440}
@@ -8281,7 +8259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Black Trash
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}
@@ -8618,7 +8596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskName: Trash Group
   taskPromptText: {fileID: 871925749}
-  generatorController: {fileID: 537563046}
+  generatorController: {fileID: 537563052}
   progressBar: {fileID: 496457684}
   cleaningManager: {fileID: 1997744513}
   cleanAudio: {fileID: 1967856877}

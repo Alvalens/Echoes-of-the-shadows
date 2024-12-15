@@ -51,14 +51,14 @@ public class GeneratorController : MonoBehaviour
     void Update()
     {
         // Start repairing if player is nearby, pressing E, and the generator is off
-        if (isPlayerNearby && Input.GetKey(KeyCode.E) && !isOn)
+        if (isPlayerNearby && Input.GetButton("Interact") && !isOn)
         {
             StartRepairing();
         }
-        else if (isRepairing && (!Input.GetKey(KeyCode.E) || !isPlayerNearby))
+        else if (isRepairing && (!Input.GetButton("Interact") || !isPlayerNearby))
         {
             CancelRepair(); // Stop repair if player stops pressing E or leaves the area
-        }
+        } 
     }
 
     private void PromptFixGenerator()
