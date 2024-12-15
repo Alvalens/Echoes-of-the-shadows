@@ -8,10 +8,11 @@ public class PrologueManager : MonoBehaviour
 
     void Start()
     {
-        nextButton.onClick.AddListener(GoToGameplay); // Add listener
+        nextButton.onClick.AddListener(GoToHelp); // Menambahkan listener ke tombol
     }
-    void GoToGameplay()
+
+    void GoToHelp()
     {
-        SceneManager.LoadScene("Main Gameplay"); // Load main gameplay
+        SceneManager.LoadScene("Help"); // Muat scene Help
     }
 }
