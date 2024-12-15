@@ -4,12 +4,19 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    private AudioSource click;
     public Button newGameButton;
     public Button continueButton;
     public Button exitButton;
 
     void Start()
     {
+        click = GetComponent<AudioSource>();
+        if (click == null)
+        {
+            Debug.LogError("AudioSource component missing on MainMenu!");
+        }
+
         newGameButton.onClick.AddListener(NewGame);
         continueButton.onClick.AddListener(ContinueGame);
         exitButton.onClick.AddListener(ExitGame);
@@ -17,6 +24,7 @@ public class MainMenu : MonoBehaviour
 
     void ContinueGame()
     {
+        PlayClickSound();
         if (PlayerPrefs.HasKey("CleanableState"))
         {
             // Load the last scene or start the saved game
@@ -30,12 +38,22 @@ public class MainMenu : MonoBehaviour
 
     void NewGame()
     {
+        PlayClickSound();
         PlayerPrefs.DeleteAll(); // Clear any saved data
         SceneManager.LoadScene("Prologue"); // Replace with the actual scene name
     }
 
     void ExitGame()
     {
+        PlayClickSound();
         Application.Quit();
+    }
+
+    void PlayClickSound()
+    {
+        if (click != null)
+        {
+            click.Play();
+        }
     }
 }
