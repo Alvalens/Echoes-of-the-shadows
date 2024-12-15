@@ -3,7 +3,11 @@ guid: 0522e5229943d3846abafa368247e594
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - progressBar: {instanceID: 0}
+  - promptText: {instanceID: 0}
+  - savingSound: {fileID: 8300000, guid: 45b79371ac9dbf24288d3fa01607c864, type: 3}
+  - savedSound: {fileID: 8300000, guid: 88ae5dc59caf72044979a79700f25376, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

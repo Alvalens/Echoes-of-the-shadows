@@ -17,6 +17,11 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("AudioSource component missing on MainMenu!");
         }
 
+
+         // Tambahkan ini untuk mencegah AudioSource dihancurkan
+        DontDestroyOnLoad(gameObject);
+
+
         newGameButton.onClick.AddListener(NewGame);
         continueButton.onClick.AddListener(ContinueGame);
         exitButton.onClick.AddListener(ExitGame);
