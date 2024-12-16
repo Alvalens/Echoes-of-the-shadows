@@ -11,6 +11,7 @@ public class WinManager : MonoBehaviour
     public TextMeshProUGUI finalTimeText;
     public Button playAgainButton;
     public Button mainMenuButton;
+    private AudioSource audioSource; // Reference to the AudioSource component
 
     public float joystickSensitivity = 10f; // Joystick movement sensitivity
     public RectTransform cursorRect; // UI element representing the cursor (optional)
@@ -22,6 +23,14 @@ public class WinManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        // Automatically find and initialize the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
+        }
+
         if (PlayerPrefs.HasKey("FinalTime"))
         {
             float finalTime = PlayerPrefs.GetFloat("FinalTime");
@@ -39,14 +48,19 @@ public class WinManager : MonoBehaviour
             Debug.LogWarning("No final time found in PlayerPrefs!");
         }
 
-        // Add a listener to the play again button
+        // Add listeners to the buttons
         if (playAgainButton != null)
         {
             playAgainButton.onClick.AddListener(PlayAgain);
         }
-        if (mainMenuButton != null) {
+        if (mainMenuButton != null)
+        {
             mainMenuButton.onClick.AddListener(MainMenu);
         }
+
+
+        // Tambahkan ini untuk mencegah AudioSource dihancurkan
+        DontDestroyOnLoad(gameObject);
 
         // Initialize event system and pointer data for cursor interaction
         eventSystem = EventSystem.current;
@@ -77,6 +91,7 @@ public class WinManager : MonoBehaviour
             GameControllers.Instance.OnControllerConnectedEvent -= HandleControllerConnected;
             GameControllers.Instance.OnControllerDisconnectedEvent -= HandleControllerDisconnected;
         }
+
     }
 
     void HandleControllerConnected()
@@ -98,16 +113,25 @@ public class WinManager : MonoBehaviour
     }
     void PlayAgain()
     {
+        PlayClickSound(); // Play the click sound
         PlayerPrefs.DeleteKey("FinalTime");
-        // Reload the current scene
-        SceneManager.LoadScene("Prolouge");
+        SceneManager.LoadScene("Prologue"); // Reload the Prologue scene
     }
 
     void MainMenu()
     {
+        PlayClickSound(); // Play the click sound
         PlayerPrefs.DeleteKey("FinalTime");
-        // Load the main menu scene
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu"); // Load the Main Menu scene
+    }
+
+
+    private void PlayClickSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play(); // Play the sound assigned to the AudioSource
+        }
     }
 
     void SimulateClick()
@@ -152,6 +176,7 @@ public class WinManager : MonoBehaviour
             {
                 SimulateClick();
             }
+
         }
     }
 }

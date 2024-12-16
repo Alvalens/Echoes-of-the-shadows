@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 public class GameOverManager : MonoBehaviour
 {
+
     public Button playAgainButton;
     public Button mainMenuButton;
 
@@ -18,12 +19,22 @@ public class GameOverManager : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     private PointerEventData pointerData;
     private EventSystem eventSystem;
+    private AudioSource audioSource; // Reference to the AudioSource component
 
     // Start is called before the first frame update
+
     void Start()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        // Automatically find and initialize the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
+        }
+
         // Prevent AudioSource from being destroyed when scenes change
         DontDestroyOnLoad(gameObject);
 
@@ -125,15 +136,18 @@ public class GameOverManager : MonoBehaviour
 
     void PlayAgain()
     {
-        SceneManager.LoadScene("Prologue"); // Load the Prologue scene again
+        PlayClickSound(); // Play the click sound
+        SceneManager.LoadScene("Prologue"); // Load the Prologue scene
     }
 
     void MainMenu()
     {
+
+        PlayClickSound(); // Play the click sound
         SceneManager.LoadScene("Main Menu"); // Load the Main Menu scene
     }
 
-    // Play the button click sound
+
     private void PlayClickSound()
     {
         if (audioSource != null)
