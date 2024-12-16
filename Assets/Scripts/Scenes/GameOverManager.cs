@@ -19,7 +19,7 @@ public class GameOverManager : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     private PointerEventData pointerData;
     private EventSystem eventSystem;
-    private AudioSource audioSource; // Reference to the AudioSource component
+    
 
     // Start is called before the first frame update
 
