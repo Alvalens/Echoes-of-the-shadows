@@ -7,13 +7,24 @@ using UnityEngine.SceneManagement;
 
 public class WinManager : MonoBehaviour
 {
-    public TextMeshProUGUI finalTimeText;
-    public Button playAgainButton;
-    public Button mainMenuButton;
+    public TextMeshProUGUI finalTimeText; // Reference to the TextMeshProUGUI component for displaying the final time
+    public Button playAgainButton; // Reference to the Play Again button
+    public Button mainMenuButton; // Reference to the Main Menu button
+
+    private AudioSource audioSource; // Reference to the AudioSource component
+
     void Start()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        // Automatically find and initialize the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
+        }
+
         if (PlayerPrefs.HasKey("FinalTime"))
         {
             float finalTime = PlayerPrefs.GetFloat("FinalTime");
@@ -31,34 +42,39 @@ public class WinManager : MonoBehaviour
             Debug.LogWarning("No final time found in PlayerPrefs!");
         }
 
-        // Add a listener to the play again button
+        // Add listeners to the buttons
         if (playAgainButton != null)
         {
             playAgainButton.onClick.AddListener(PlayAgain);
         }
-        if (mainMenuButton != null) {
+        if (mainMenuButton != null)
+        {
             mainMenuButton.onClick.AddListener(MainMenu);
         }
+
+        // Tambahkan ini untuk mencegah AudioSource dihancurkan
+        DontDestroyOnLoad(gameObject);
     }
 
     void PlayAgain()
     {
+        PlayClickSound(); // Play the click sound
         PlayerPrefs.DeleteKey("FinalTime");
-        // Reload the current scene
-        SceneManager.LoadScene("Prolouge");
+        SceneManager.LoadScene("Prologue"); // Reload the Prologue scene
     }
 
     void MainMenu()
     {
+        PlayClickSound(); // Play the click sound
         PlayerPrefs.DeleteKey("FinalTime");
-        // Load the main menu scene
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu"); // Load the Main Menu scene
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void PlayClickSound()
     {
-        
+        if (audioSource != null)
+        {
+            audioSource.Play(); // Play the sound assigned to the AudioSource
+        }
     }
 }
