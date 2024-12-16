@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement; // For scene management
 
 public class Gamemanager : MonoBehaviour
 {
-    public float realTimeDuration = 600f; // 10 minutes in seconds
+    public float realTimeDuration = 900f; // 15 minutes in seconds
     private float timer;
     public TextMeshProUGUI timerText; // Assign the TimerText in the Inspector
 
@@ -80,7 +80,6 @@ public class Gamemanager : MonoBehaviour
         // Load the Wining scene
         SceneManager.LoadScene("Wining");
     }
-
 
     void GameOver()
     {
