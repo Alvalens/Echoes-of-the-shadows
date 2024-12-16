@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Wining.unity
     guid: e2889f7d4340a9649b10e5dfb3155362
+  - enabled: 1
+    path: Assets/Scenes/Help Menu.unity
+    guid: a1d6959c2691fbf4b8c8046e3c842e94
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 3518a48c360a53f40a6af81b214bf5f8
   m_configObjects: {}
