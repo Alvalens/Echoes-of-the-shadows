@@ -9,7 +9,6 @@ public class MainMenu : MonoBehaviour
     public Button newGameButton;
     public Button continueButton;
     public Button exitButton;
-
     public float joystickSensitivity = 10f; // Joystick movement sensitivity
     public RectTransform cursorRect; // UI element representing the cursor (optional)
     public string interactButtonName = "Interact"; // Interact button name (mapped in Input Manager)
@@ -18,48 +17,98 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         click = GetComponent<AudioSource>();
         if (click == null)
         {
             Debug.LogError("AudioSource component missing on MainMenu!");
         }
 
-
-         // Tambahkan ini untuk mencegah AudioSource dihancurkan
+        // Prevent AudioSource from being destroyed
         DontDestroyOnLoad(gameObject);
-
 
         newGameButton.onClick.AddListener(NewGame);
         continueButton.onClick.AddListener(ContinueGame);
         exitButton.onClick.AddListener(ExitGame);
-
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
+
+        // Hide cursor rect by default
+        if (cursorRect != null)
+        {
+            cursorRect.gameObject.SetActive(false);
+        }
+
+        // Subscribe to controller connection events
+        if (GameControllers.Instance != null)
+        {
+            GameControllers.Instance.OnControllerConnectedEvent += HandleControllerConnected;
+            GameControllers.Instance.OnControllerDisconnectedEvent += HandleControllerDisconnected;
+
+            // Check initial state
+            UpdateCursorVisibility(GameControllers.Instance.IsControllerConnected);
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Unsubscribe from events to prevent memory leaks
+        if (GameControllers.Instance != null)
+        {
+            GameControllers.Instance.OnControllerConnectedEvent -= HandleControllerConnected;
+            GameControllers.Instance.OnControllerDisconnectedEvent -= HandleControllerDisconnected;
+        }
+    }
+
+    void HandleControllerConnected()
+    {
+        UpdateCursorVisibility(true);
+    }
+
+    void HandleControllerDisconnected()
+    {
+        UpdateCursorVisibility(false);
+    }
+
+    void UpdateCursorVisibility(bool isConnected)
+    {
+        if (cursorRect != null)
+        {
+            cursorRect.gameObject.SetActive(isConnected);
+        }
     }
 
     void Update()
     {
-        // Get joystick input (left stick)
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        // Move the cursor based on joystick input
-        Vector3 cursorMovement = new Vector3(horizontal, vertical, 0f) * joystickSensitivity;
-        if (cursorRect != null)
+        // Only process cursor movement if controller is connected
+        if (GameControllers.Instance != null && GameControllers.Instance.IsControllerConnected)
         {
-            cursorRect.anchoredPosition += new Vector2(cursorMovement.x, cursorMovement.y);
-        }
+            // Get joystick input (left stick)
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
 
-        // Simulate a click if the interact button is pressed
-        if (Input.GetButtonDown(interactButtonName))
-        {
-            SimulateClick();
+            // Move the cursor based on joystick input
+            if (cursorRect != null)
+            {
+                Vector3 cursorMovement = new Vector3(horizontal, vertical, 0f) * joystickSensitivity;
+                cursorRect.anchoredPosition += new Vector2(cursorMovement.x, cursorMovement.y);
+            }
+
+            // Simulate a click if the interact button is pressed
+            if (Input.GetButtonDown(interactButtonName))
+            {
+                SimulateClick();
+            }
         }
     }
 
     // Simulate button click when the interact button is pressed
     void SimulateClick()
     {
+        if (cursorRect == null) return;
+
         pointerData.position = cursorRect.position; // Update the pointer position based on cursor
 
         // Raycast to check if we are hovering over any UI element
@@ -68,9 +117,9 @@ public class MainMenu : MonoBehaviour
 
         foreach (var result in raycastResults)
         {
-            if (result.gameObject.GetComponent<Button>())
+            Button button = result.gameObject.GetComponent<Button>();
+            if (button != null)
             {
-                Button button = result.gameObject.GetComponent<Button>();
                 button.onClick.Invoke(); // Simulate button click
                 PlayClickSound(); // Play sound when a button is clicked
                 break; // Only click one button at a time
