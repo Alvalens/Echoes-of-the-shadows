@@ -1,12 +1,16 @@
 using UnityEngine;
 using TMPro; // If using TextMeshPro
-using UnityEngine.SceneManagement; // For scene management
+using UnityEngine.SceneManagement;
+using UnityEngine.UI; // For scene management
 
 public class Gamemanager : MonoBehaviour
 {
     public float realTimeDuration = 900f; // 15 minutes in seconds
     private float timer;
     public TextMeshProUGUI timerText; // Assign the TimerText in the Inspector
+    public GameObject exitCanvas;
+    public Button buttonYes;
+    public Button buttonNo;
 
     private int startHour = 22; // 10:00 PM in 24-hour format
     private int endHour = 3; // 3:00 AM in 24-hour format
@@ -22,6 +26,12 @@ public class Gamemanager : MonoBehaviour
             timer = PlayerPrefs.GetFloat("RemainingTime");
         }
         UpdateClockDisplay();
+
+        buttonYes.onClick.AddListener(MainMenu);
+        buttonNo.onClick.AddListener(CancelExit);
+
+        // Hide the exit confirmation canvas by default
+        exitCanvas.gameObject.SetActive(false);
     }
 
     void Update()
@@ -44,6 +54,32 @@ public class Gamemanager : MonoBehaviour
                 }
             }
         }
+
+        // if esc pressed set active canvas
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowExitConfirmation();
+        }
+    }
+
+    void ShowExitConfirmation()
+    {
+        //show crusor 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        exitCanvas.gameObject.SetActive(true);
+    }
+
+    void CancelExit()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        exitCanvas.gameObject.SetActive(false);
+    }
+    
+    void MainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     void UpdateClockDisplay()
