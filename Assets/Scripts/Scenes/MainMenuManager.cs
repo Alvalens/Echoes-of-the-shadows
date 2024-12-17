@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MainMenu : MonoBehaviour
     public float joystickSensitivity = 10f; // Joystick movement sensitivity
     public RectTransform cursorRect; // UI element representing the cursor (optional)
     public string interactButtonName = "Interact"; // Interact button name (mapped in Input Manager)
+    public TextMeshProUGUI saveGameText;
     private PointerEventData pointerData;
     private EventSystem eventSystem;
 
@@ -137,10 +139,15 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
+            saveGameText.text = "No saved game found!";
+            Invoke("HideText", 3f);
             Debug.Log("No saved game found!");
         }
     }
-
+    void HideText()
+    {
+        saveGameText.text = "";
+    }
     void NewGame()
     {
         PlayClickSound();
