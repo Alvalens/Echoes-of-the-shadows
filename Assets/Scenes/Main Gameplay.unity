@@ -1722,6 +1722,8 @@ MonoBehaviour:
   savingAudio: {fileID: 1237276470}
   savedAudio: {fileID: 1955179969}
   saveDuration: 5
+  FlashlightController: {fileID: 909117414}
+  gamemanagerController: {fileID: 708707699}
 --- !u!4 &311664284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4656102233599698, guid: b4d0d3252571eb9468266301b65df7d2, type: 3}
@@ -6343,6 +6345,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 48988690092724076, guid: b0073291b061a8748a20e7c9e0d55882, type: 3}
+--- !u!114 &909117414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8924980369548849101, guid: ef195553e933620448e2bd316eb54618, type: 3}
+  m_PrefabInstance: {fileID: 7577084636280607237}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d76ab5121487449afac6246fc53b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916731677 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9147296000082801519, guid: f9a0f8c3fb0ed0e4295942a9cbc2a182, type: 3}

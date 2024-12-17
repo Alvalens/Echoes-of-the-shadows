@@ -17,6 +17,10 @@ public class Gamemanager : MonoBehaviour
     void Start()
     {
         timer = realTimeDuration;
+        if (PlayerPrefs.HasKey("RemainingTime"))
+        {
+            timer = PlayerPrefs.GetFloat("RemainingTime");
+        }
         UpdateClockDisplay();
     }
 
@@ -84,5 +88,11 @@ public class Gamemanager : MonoBehaviour
     void GameOver()
     {
         SceneManager.LoadScene("Game Over");
+    }
+
+    public void SaveRemainingTimer()
+    {
+        PlayerPrefs.SetFloat("RemainingTime", timer);
+        PlayerPrefs.Save();
     }
 }

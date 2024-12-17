@@ -9,6 +9,8 @@ public class BedInteraction : MonoBehaviour
     public AudioSource savingAudio;   // Audio untuk suara proses menyimpan
     public AudioSource savedAudio;    // Audio untuk suara selesai menyimpan
     public float saveDuration = 5f;   // Durasi untuk proses menyimpan
+    public FlashlightController FlashlightController;
+    public Gamemanager gamemanagerController;
 
     private bool isPlayerNearby = false;
     private bool isSaving = false;
@@ -66,6 +68,8 @@ public class BedInteraction : MonoBehaviour
         if (progressBar != null) progressBar.gameObject.SetActive(false);
 
         cleaningManager.SaveCleanableState();
+        FlashlightController.SaveFlashlightData();
+        gamemanagerController.SaveRemainingTimer();
 
         if (promptText != null)
         {

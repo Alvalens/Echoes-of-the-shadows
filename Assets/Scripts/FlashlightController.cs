@@ -18,6 +18,12 @@ public class FlashlightController : MonoBehaviour
         // Get the Light and Collider components if not already assigned
         if (!flashlight) flashlight = GetComponent<Light>();
         if (!detectionCollider) detectionCollider = GetComponent<Collider>();
+
+        // Load flashlight data from PlayerPrefs
+        if (PlayerPrefs.HasKey("BatteryLife"))
+        {
+            batteryLife = PlayerPrefs.GetFloat("BatteryLife");
+        }
     }
 
     void Update()
@@ -87,5 +93,11 @@ public class FlashlightController : MonoBehaviour
 
         // Update the text component
         batteryText.text = $"{Mathf.CeilToInt(batteryPercentage)}%";
+    }
+
+    public void SaveFlashlightData()
+    {
+        // Save flashlight data to PlayerPrefs
+        PlayerPrefs.SetFloat("BatteryLife", batteryLife);
     }
 }
