@@ -59,8 +59,8 @@ public class WinManager : MonoBehaviour
         }
 
 
-        // Tambahkan ini untuk mencegah AudioSource dihancurkan
-        DontDestroyOnLoad(gameObject);
+        // change this method, its keep all alive not specific object such as audio
+        //DontDestroyOnLoad(gameObject);
 
         // Initialize event system and pointer data for cursor interaction
         eventSystem = EventSystem.current;

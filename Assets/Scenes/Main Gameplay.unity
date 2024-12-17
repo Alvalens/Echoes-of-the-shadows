@@ -4713,7 +4713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color="white">test</color>
+  m_text: <color="white">Test</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 77ffe3e06bbc1cd46b809d3345a05199, type: 2}
   m_sharedMaterial: {fileID: -665724105449554719, guid: 77ffe3e06bbc1cd46b809d3345a05199, type: 2}
@@ -4740,8 +4740,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
@@ -11057,8 +11057,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0

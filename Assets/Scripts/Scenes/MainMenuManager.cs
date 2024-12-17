@@ -26,8 +26,8 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("AudioSource component missing on MainMenu!");
         }
 
-        // Prevent AudioSource from being destroyed
-        DontDestroyOnLoad(gameObject);
+        // change this method, its keep all alive not specific object such as audio
+        //DontDestroyOnLoad(gameObject);
 
         newGameButton.onClick.AddListener(NewGame);
         continueButton.onClick.AddListener(ContinueGame);

@@ -37,7 +37,7 @@ public class PrologueManager : MonoBehaviour
         }
 
         // Prevent AudioSource from being destroyed
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(audioSource);
 
         // Initialize event system and pointer data for cursor interaction
         eventSystem = EventSystem.current;

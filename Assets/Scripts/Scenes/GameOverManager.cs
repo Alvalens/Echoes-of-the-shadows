@@ -19,9 +19,7 @@ public class GameOverManager : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     private PointerEventData pointerData;
     private EventSystem eventSystem;
-    
-
-    // Start is called before the first frame update
+ 
 
     void Start()
     {
@@ -35,8 +33,8 @@ public class GameOverManager : MonoBehaviour
             Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
         }
 
-        // Prevent AudioSource from being destroyed when scenes change
-        DontDestroyOnLoad(gameObject);
+        // change this method, its keep all alive not specific object such as audio
+        //DontDestroyOnLoad(gameObject);
 
         // Button listeners
         playAgainButton.onClick.AddListener(PlayAgain);

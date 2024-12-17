@@ -6,21 +6,6 @@ public class GameControllers : MonoBehaviour
     public static GameControllers Instance { get; private set; }
     public bool IsControllerConnected { get; private set; } = false;
 
-    private void Awake()
-    {
-        // Singleton pattern to ensure only one instance exists
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            StartCoroutine(CheckForControllers());
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     private IEnumerator CheckForControllers()
     {
         while (true)

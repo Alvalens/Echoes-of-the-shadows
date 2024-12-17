@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
+using TMPro;
 
 public class HelpManager : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class HelpManager : MonoBehaviour
     public float joystickSensitivity = 10f; // Joystick movement sensitivity
     public RectTransform cursorRect; // UI element representing the cursor (optional)
     public string interactButtonName = "Interact"; // Interact button name (mapped in Input Manager)
+    public GameObject loadingScreen; // Reference to the loading screen UI
+    public TextMeshProUGUI loadingText; // Reference to t
 
     private AudioSource audioSource; // Reference to the AudioSource component
     private PointerEventData pointerData;
@@ -25,8 +29,8 @@ public class HelpManager : MonoBehaviour
             Debug.LogError("No AudioSource found! Please attach an AudioSource component.");
         }
 
-        // Prevent AudioSource from being destroyed when scenes change
-        DontDestroyOnLoad(gameObject);
+        // change this method, its keep all alive not specific object such as audio
+        //DontDestroyOnLoad(gameObject);
 
         nextButton.onClick.AddListener(GoToGameplay); // Add listener to the button
 
@@ -129,9 +133,36 @@ public class HelpManager : MonoBehaviour
     void GoToGameplay()
     {
         PlayClickSound(); // Play the click sound
-        SceneManager.LoadScene("Main Gameplay"); // Load the Main Gameplay scene
+        StartCoroutine(LoadSceneAsync("Main Gameplay")); // Load the Main Gameplay scene asynchronously
     }
 
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        // Show the loading screen
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(true);
+        }
+
+        // Start loading the scene asynchronously
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        // While the scene is loading, display the loading text
+        while (!operation.isDone)
+        {
+            if (loadingText != null)
+            {
+                loadingText.text = "Loading...";
+            }
+            yield return null;
+        }
+
+        // Hide the loading screen once the scene is loaded
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(false);
+        }
+    }
     private void PlayClickSound()
     {
         if (audioSource != null)
