@@ -13793,6 +13793,10 @@ PrefabInstance:
       value: -0.29
       objectReference: {fileID: 0}
     - target: {fileID: 8924980369548849101, guid: ef195553e933620448e2bd316eb54618, type: 3}
+      propertyPath: batteryLife
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924980369548849101, guid: ef195553e933620448e2bd316eb54618, type: 3}
       propertyPath: batteryText
       value: 
       objectReference: {fileID: 1247681327}

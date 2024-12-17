@@ -6,7 +6,7 @@ using UnityEngine;
 public class FlashlightController : MonoBehaviour
 {
     public Light flashlight;                  // Reference to the Spotlight component
-    public float batteryLife = 150f;          // 3 minutes of battery life
+    public float batteryLife = 250f;          // 3 minutes and 30 seconds of battery life
     public bool isOn = true;                  // Flashlight state
     public Collider detectionCollider;        // Trigger collider to detect ghosts
     public TextMeshProUGUI batteryText;       // UI Text to show battery life
@@ -83,7 +83,7 @@ public class FlashlightController : MonoBehaviour
     void UpdateBatteryText()
     {
         // Calculate battery percentage
-        float batteryPercentage = (batteryLife / 150f) * 100f;
+        float batteryPercentage = (batteryLife / 250f) * 100f;
 
         // Update the text component
         batteryText.text = $"{Mathf.CeilToInt(batteryPercentage)}%";
