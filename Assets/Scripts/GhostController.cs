@@ -164,7 +164,7 @@ public class GhostController : MonoBehaviour
 
         // Adjust the ghost's vertical position to align with the camera's height
         float cameraHeight = mainCamera.transform.position.y;
-        transform.position = new Vector3(transform.position.x, cameraHeight - 2.3f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, cameraHeight - 3f, transform.position.z);
 
         // Make the ghost look at the camera
         Vector3 lookDirection = mainCamera.transform.position - transform.position;
@@ -203,9 +203,9 @@ public class GhostController : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
 
-        isJumpScareActive = false; // Reset jump scare flag
         DeactivateGhost();
         SceneManager.LoadScene("Game Over");
+        isJumpScareActive = false; // Reset jump scare flag
     }
 
     void OnTriggerEnter(Collider other)
