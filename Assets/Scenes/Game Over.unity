@@ -713,7 +713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playAgainButton: {fileID: 1359545392}
   mainMenuButton: {fileID: 44438112}
-  playAtCheckPointButton: {fileID: 0}
+  playAtCheckPointButton: {fileID: 233225445}
   loadingScreen: {fileID: 376226622}
   loadingText: {fileID: 2023794652}
   joystickSensitivity: 10
