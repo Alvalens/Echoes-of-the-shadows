@@ -59,6 +59,22 @@ public class Gamemanager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ShowExitConfirmation();
+        } else if (Input.GetKeyDown(KeyCode.JoystickButton7)) 
+        {
+                ShowExitConfirmation();
+        }
+
+        //if exit canvas is active add listener to toggle and interafct button, if interact pressed call MainMenu, if toggle pressed call CancelExit
+        if (exitCanvas.gameObject.activeSelf)
+        {
+            if (Input.GetButtonDown("Interact"))
+            {
+                MainMenu();
+            }
+            else if (Input.GetButtonDown("Toggle"))
+            {
+                CancelExit();
+            }
         }
     }
 
