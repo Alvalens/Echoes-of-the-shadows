@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class GameOverManager : MonoBehaviour
 {
 
     public Button playAgainButton;
     public Button mainMenuButton;
+    public Button playAtCheckPointButton;
+    public GameObject loadingScreen; // Reference to the loading screen UI
+    public TextMeshProUGUI loadingText; // Reference to t
 
     // Joystick settings for cursor control
     public float joystickSensitivity = 10f;
@@ -39,6 +43,7 @@ public class GameOverManager : MonoBehaviour
         // Button listeners
         playAgainButton.onClick.AddListener(PlayAgain);
         mainMenuButton.onClick.AddListener(MainMenu);
+        playAtCheckPointButton.onClick.AddListener(PlayAtCheckPoint);
 
         // Initialize EventSystem and PointerEventData for cursor interactions
         eventSystem = EventSystem.current;
@@ -135,6 +140,7 @@ public class GameOverManager : MonoBehaviour
     void PlayAgain()
     {
         PlayClickSound(); // Play the click sound
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Prologue"); // Load the Prologue scene
     }
 
@@ -145,6 +151,39 @@ public class GameOverManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu"); // Load the Main Menu scene
     }
 
+    void PlayAtCheckPoint()
+    {
+        PlayClickSound(); // Play the click sound
+        StartCoroutine(LoadSceneAsync("Main Gameplay"));
+    }
+
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        // Show the loading screen
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(true);
+        }
+
+        // Start loading the scene asynchronously
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        // While the scene is loading, display the loading text
+        while (!operation.isDone)
+        {
+            if (loadingText != null)
+            {
+                loadingText.text = "Loading...";
+            }
+            yield return null;
+        }
+
+        // Hide the loading screen once the scene is loaded
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(false);
+        }
+    }
 
     private void PlayClickSound()
     {

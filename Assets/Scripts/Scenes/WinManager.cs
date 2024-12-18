@@ -113,14 +113,14 @@ public class WinManager : MonoBehaviour
     }
     void PlayAgain()
     {
-        PlayClickSound(); // Play the click sound
-        PlayerPrefs.DeleteKey("FinalTime");
+        PlayClickSound(); 
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Prologue"); // Reload the Prologue scene
     }
 
     void MainMenu()
     {
-        PlayClickSound(); // Play the click sound
+        PlayClickSound(); 
         PlayerPrefs.DeleteKey("FinalTime");
         SceneManager.LoadScene("Main Menu"); // Load the Main Menu scene
     }
