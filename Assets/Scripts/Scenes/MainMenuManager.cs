@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     private AudioSource click;
     public Button newGameButton;
     public Button continueButton;
+    public Button helpButton; // Add Help Button
+    public Button creditsButton; // Add Credits Button
     public Button exitButton;
     public float joystickSensitivity = 10f; // Joystick movement sensitivity
     public RectTransform cursorRect; // UI element representing the cursor (optional)
@@ -28,11 +30,12 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("AudioSource component missing on MainMenu!");
         }
 
-        // change this method, its keep all alive not specific object such as audio
-        //DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
 
         newGameButton.onClick.AddListener(NewGame);
         continueButton.onClick.AddListener(ContinueGame);
+        helpButton.onClick.AddListener(HelpGame); 
+        creditsButton.onClick.AddListener(CreditsGame); 
         exitButton.onClick.AddListener(ExitGame);
         eventSystem = EventSystem.current;
         pointerData = new PointerEventData(eventSystem);
@@ -153,6 +156,18 @@ public class MainMenu : MonoBehaviour
         PlayClickSound();
         PlayerPrefs.DeleteAll(); // Clear any saved data
         SceneManager.LoadScene("Prologue"); // Replace with the actual scene name
+    }
+
+    void HelpGame()
+    {
+        PlayClickSound();
+        SceneManager.LoadScene("Help"); 
+    }
+
+    void CreditsGame()
+    {
+        PlayClickSound();
+        SceneManager.LoadScene("Credits");
     }
 
     void ExitGame()

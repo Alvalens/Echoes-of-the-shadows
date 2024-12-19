@@ -148,7 +148,7 @@ public class PrologueManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Help"); // Load the next scene when all texts are shown
+            SceneManager.LoadScene("Control Game"); // Load the next scene when all texts are shown
         }
     }
 
