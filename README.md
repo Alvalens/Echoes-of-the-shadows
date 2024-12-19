@@ -2,6 +2,8 @@
 
 ### Description
 
+![image](https://github.com/user-attachments/assets/07088720-7577-43b9-89c9-451da42cd86d)
+
 **Echoes of the Shadows** is a horror game where players take on the role of a cleaner tasked with preparing an abandoned house for sale. The game features atmospheric tension, interactive mechanics, and a ghostly presence that serves as a constant threat. Players must manage limited resources, including a flashlight with depleting batteries, while navigating the eerie environment and avoiding the ghost.
 
 ---
