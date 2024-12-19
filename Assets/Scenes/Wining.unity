@@ -680,7 +680,7 @@ MonoBehaviour:
   playAgainButton: {fileID: 774604290}
   mainMenuButton: {fileID: 1628365321}
   joystickSensitivity: 10
-  cursorRect: {fileID: 0}
+  cursorRect: {fileID: 1484643770}
   interactButtonName: Interact
 --- !u!82 &833970470
 AudioSource:
