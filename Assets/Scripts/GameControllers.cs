@@ -6,6 +6,24 @@ public class GameControllers : MonoBehaviour
     public static GameControllers Instance { get; private set; }
     public bool IsControllerConnected { get; private set; } = false;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CheckForControllers());
+    }
+
     private IEnumerator CheckForControllers()
     {
         while (true)
@@ -39,7 +57,6 @@ public class GameControllers : MonoBehaviour
         }
     }
 
-
     // Event for other scripts to subscribe to
     public delegate void ControllerConnectionHandler();
     public event ControllerConnectionHandler OnControllerConnectedEvent;
@@ -55,3 +72,4 @@ public class GameControllers : MonoBehaviour
         OnControllerDisconnectedEvent?.Invoke();
     }
 }
+
